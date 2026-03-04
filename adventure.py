@@ -11,25 +11,25 @@ class Realm:
 
     def place_entity(self, entity: Entity):
         if not self.in_bounds(entity.x, entity.y):
-            raise ValueError(f"Entity ({entity.x}, {entity.y}) is out of bounds")
-        
+            raise ValueError(f"{entity.debug_print()} cannot be placed at ({entity.x}, {entity.y}) because it is out of bounds")
+
         if self.grid[entity.x][entity.y] is not None:
-            raise ValueError(f"Entity ({entity.x}, {entity.y}) is already occupied")
+            raise ValueError(f"{entity.debug_print()} cannot be placed at ({entity.x}, {entity.y}) because it is already occupied")
 
         self.grid[entity.x][entity.y] = entity
     
     def remove_entity(self, x: int, y: int):
         if not self.in_bounds(x, y):
-            raise ValueError(f"Entity ({x}, {y}) is out of bounds")
+            raise ValueError(f"Target ({x}, {y}) is out of bounds")
         
         if self.grid[x][y] is None:
-            raise ValueError(f"Entity ({x}, {y}) is not occupied")
+            raise ValueError(f"Target ({x}, {y}) is not occupied")
 
         self.grid[x][y] = None
 
     def get_entity(self, x: int, y: int) -> Entity | None:
         if not self.in_bounds(x, y):
-            raise ValueError(f"Entity ({x}, {y}) is out of bounds")
+            raise ValueError(f"Target ({x}, {y}) is out of bounds")
         
         return self.grid[x][y]
 
@@ -43,20 +43,20 @@ class Realm:
         new_y = entity.y + direction[1]
 
         if not self.in_bounds(new_x, new_y):
-            raise ValueError(f"Entity ({entity.x}, {entity.y}) is out of bounds")
+            raise ValueError(f"Target ({new_x}, {new_y}) is out of bounds")
 
         if self.grid[new_x][new_y] is not None:
             if not self.grid[new_x][new_y].can_touch(entity):
-                raise ValueError(f"Entity ({entity.x}, {entity.y}) cannot touch entity ({new_x}, {new_y})")
+                raise ValueError(f"{entity.debug_print()} cannot touch {self.grid[new_x][new_y].debug_print()}")
 
         if self.grid[new_x][new_y] is None:
             entity.move(direction)
-            self.grid[new_x][new_y] = entity
+            self.place_entity(entity)
             self.remove_entity(old_x, old_y)
         else:
             self.grid[new_x][new_y].touch(entity)
             entity.move(direction)
-            self.grid[new_x][new_y] = entity
+            self.place_entity(entity)
             self.remove_entity(old_x, old_y)
 
     def debug_print(self) -> str:
@@ -76,7 +76,6 @@ class MiniQuest:
         self.player1 = player1
         self.player2 = player2
         self.time = 0
-        self.over = False
 
     def tick(self):
         self.time += 1
