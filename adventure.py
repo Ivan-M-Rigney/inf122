@@ -13,8 +13,8 @@ class Realm:
         if not self.in_bounds(entity.x, entity.y):
             raise ValueError(f"{entity.debug_print()} cannot be placed at ({entity.x}, {entity.y}) because it is out of bounds")
 
-        if self.grid[entity.x][entity.y] is not None:
-            raise ValueError(f"{entity.debug_print()} cannot be placed at ({entity.x}, {entity.y}) because it is already occupied")
+        # if self.grid[entity.x][entity.y] is not None:
+        #     raise ValueError(f"{entity.debug_print()} cannot be placed at ({entity.x}, {entity.y}) because it is already occupied")
 
         self.grid[entity.x][entity.y] = entity
     
