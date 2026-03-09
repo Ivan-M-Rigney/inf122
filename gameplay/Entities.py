@@ -24,7 +24,7 @@ class Tile(Entity):
     def debug_print(self) -> str:
         return "."
 
-class Player(Entity):
+class PlayerEntity(Entity):
     def __init__(self, x: int, y: int):
         super().__init__(x, y)
         self.dead = False
@@ -50,7 +50,7 @@ class Lava(Entity):
         return True
     
     def touch(self, other: Entity):
-        if isinstance(other, Player):
+        if isinstance(other, PlayerEntity):
             other.dead = True
 
     def debug_print(self) -> str:
@@ -64,7 +64,7 @@ class Water(Entity):
         return True
     
     def touch(self, other: Entity):
-        if isinstance(other, Player):
+        if isinstance(other, PlayerEntity):
             other.stuck = True
 
     def debug_print(self) -> str:
@@ -78,7 +78,7 @@ class Apple(Entity):
         return True
     
     def touch(self, other: Entity):
-        if isinstance(other, Player):
+        if isinstance(other, PlayerEntity):
             other.score += 1
             self.hidden = True
 
@@ -93,7 +93,7 @@ class Merchant(Entity):
         return True
     
     def touch(self, other: Entity):
-        if isinstance(other, Player):
+        if isinstance(other, PlayerEntity):
             other.companion = self
             self.hidden = True
 
@@ -108,7 +108,7 @@ class Target(Entity):
         return True
     
     def touch(self, other: Entity):
-        if isinstance(other, Player):
+        if isinstance(other, PlayerEntity):
             if isinstance(other.companion, Merchant):
                 other.win = True
 

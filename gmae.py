@@ -1,4 +1,8 @@
-from WorldClock import WorldClock
+from menus.PlayQuest import PlayQuest
+# from menus.PlayerInfo import PlayerInfo
+# from menus.CreateQuest import CreateQuest
+from utilities.World import World
+from utilities.Player import Player
 
 profiles = {}
 
@@ -28,11 +32,15 @@ while True:
     break
 
 # CREATE PLAYER OBJECTS TODO
+player1 = Player(p1)
+player2 = Player(p2)
 
 # CREATE WORLD OBJECT TODO
+world = World(player1, player2)
 
 # CREATE MENU OBJECTS TODO
 # Example - PlayQuest(World)
+playQuest = PlayQuest(world)
 # Example - PlayerInfo(World)
 # Example - CreateQuest(World)
 
@@ -50,7 +58,7 @@ while True:
     print("\n" + "=" * 40)
     print("  Main Menu")
     print("=" * 40)
-    print("  [1] Escort Quest") # Play Quest
+    print("  [1] Escort Quest (TESTING FOR PLAYQUEST.PY)") # Play Quest
     print("  [2] Collect Quest") # Player Info
     print("  [3] Settings") # Create Quest
     print("  [4] Quit")
@@ -59,7 +67,7 @@ while True:
 
     if choice == "1":
         print("\n  [Escort Quest coming soon]\n")
-        # PlayQuest.run()
+        playQuest.run()
 
     elif choice == "2":
         print("\n  [Collect Quest coming soon]\n")
@@ -75,58 +83,3 @@ while True:
 
     else:
         print("  Invalid option. Please enter 1, 2, or 3.")
-
-
-# Ideas
-
-class World:
-    def __init__(self, player1: Player, player2: Player):
-        self.quests = []
-        self.player1 = player1
-        self.player2 = player2
-        self.time = WorldClock()
-
-class Player:
-    def __init__(self, username: str):
-        self.username = username
-        self.quests_completed = []
-        self.inventory = Inventory()
-    
-    def addItem(self, item: Item):
-        self.inventory.addItem(item)
-    
-    def addQuest(self, quest):
-        self.quests.append(quest)
-
-# Code from Ivan's A3
-class Inventory:
-    def __init__(self):
-        self.maxCapacity = 100
-        self.items = []
-
-    def addItem(self, item: Item):
-        if len(self.items) < self.maxCapacity:
-            self.items.append(item)
-        else:
-            raise Exception("Inventory is full")
-    
-    def updateItem(self, item: int, newItem: Item):
-        if item < len(self.items):
-            self.items[item] = newItem
-        else:
-            raise Exception("Item index out of bounds")
-
-    def removeItem(self, item: int):
-        self.items.pop(item)
-
-    # Refactoring #1: Extract Method
-    def viewInventory(self):
-        for item in self.items:
-            print(item.name, ' - ', item.description, ' - ', item.rarity)
-
-class Item:
-    def __init__(self, name: str, description: str, rarity: Rarity):
-        self.name = name
-        self.description = description
-        self.rarity = rarity
-# End of Code from Ivan's A3
