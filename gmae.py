@@ -1,5 +1,5 @@
 from menus.PlayQuest import PlayQuest
-# from menus.PlayerInfo import PlayerInfo
+from menus.PlayerInfo import PlayerInfo
 # from menus.CreateQuest import CreateQuest
 from utilities.World import World
 from utilities.Player import Player
@@ -33,7 +33,7 @@ while True:
 
 # CREATE PLAYER OBJECTS TODO
 player1 = Player(p1)
-player2 = Player(p2)
+player2 = Player(p2) 
 
 # CREATE WORLD OBJECT TODO
 world = World(player1, player2)
@@ -41,7 +41,7 @@ world = World(player1, player2)
 # CREATE MENU OBJECTS TODO
 # Example - PlayQuest(World)
 playQuest = PlayQuest(world)
-# Example - PlayerInfo(World)
+playerInfo = PlayerInfo(world)
 # Example - CreateQuest(World)
 
 print(f"\nWelcome, {p1} and {p2}!")
@@ -59,19 +59,18 @@ while True:
     print("  Main Menu")
     print("=" * 40)
     print("  [1] Escort Quest (TESTING FOR PLAYQUEST.PY)") # Play Quest
-    print("  [2] Collect Quest") # Player Info
+    print("  [2] Player Info") # Player Info
     print("  [3] Settings") # Create Quest
     print("  [4] Quit")
 
-    choice = input("\nSelect an option (1/2/3): ").strip()
+    choice = input("\nSelect an option (1/2/3/4): ").strip()
 
     if choice == "1":
         print("\n  [Escort Quest coming soon]\n")
         playQuest.run()
 
     elif choice == "2":
-        print("\n  [Collect Quest coming soon]\n")
-        # PlayerInfo.run()
+        playerInfo.run()
 
     elif choice == "3":
         print("\n  [Settings coming soon]\n")
@@ -82,4 +81,4 @@ while True:
         break
 
     else:
-        print("  Invalid option. Please enter 1, 2, or 3.")
+        print("  Invalid option. Please enter 1, 2, 3, or 4.")

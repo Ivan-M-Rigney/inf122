@@ -1,3 +1,9 @@
+class Item:
+    def __init__(self, name: str, description: str, rarity: str): # Rarity ENUM changed to string for simplicity
+        self.name = name
+        self.description = description
+        self.rarity = rarity
+
 # Code from Ivan's A3
 class Inventory:
     def __init__(self):
@@ -23,10 +29,4 @@ class Inventory:
     def viewInventory(self):
         for item in self.items:
             print(item.name, ' - ', item.description, ' - ', item.rarity)
-
-class Item:
-    def __init__(self, name: str, description: str, rarity: str): # Rarity ENUM changed to string for simplicity
-        self.name = name
-        self.description = description
-        self.rarity = rarity
 # End of Code from Ivan's A3
