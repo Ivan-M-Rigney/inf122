@@ -59,26 +59,32 @@ while True:
     print("  Main Menu")
     print("=" * 40)
     print("  [1] Escort Quest (TESTING FOR PLAYQUEST.PY)") # Play Quest
-    print("  [2] Player Info") # Player Info
-    print("  [3] Settings") # Create Quest
-    print("  [4] Quit")
+    print("  [2] Collect Quest (TESTING FOR PLAYQUEST.PY)") # Play Quest
+    print("  [3] Player Info") # Player Info
+    print("  [4] Settings") # Create Quest
+    print("  [5] Quit")
 
-    choice = input("\nSelect an option (1/2/3/4): ").strip()
+    choice = input("\nSelect an option (1/2/3/4/5): ").strip()
 
     if choice == "1":
-        print("\n  [Escort Quest coming soon]\n")
+        print("\nStarting Escort Quest...\n")
         playQuest.run()
 
     elif choice == "2":
-        playerInfo.run()
+        print("\nStarting Collect Quest...\n")
+        playQuest.run()
 
     elif choice == "3":
-        print("\n  [Settings coming soon]\n")
-        # CreateQuest.run()
+        print("\n  [Player Info...]\n")
+        playerInfo.run()
 
     elif choice == "4":
+        print("\n  [Settings coming soon]\n")
+        CreateQuest.run()
+
+    elif choice == "5":
         print(f"\n  Farewell, {p1} and {p2}!\n")
         break
 
     else:
-        print("  Invalid option. Please enter 1, 2, 3, or 4.")
+        print("  Invalid option. Please enter 1, 2, 3, 4, or 5.")

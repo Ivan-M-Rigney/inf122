@@ -1,5 +1,4 @@
 # Menu/flow for viewing player information
-
 from utilities.World import World
 
 class PlayerInfo:
