@@ -1,6 +1,6 @@
 from menus.PlayQuest import PlayQuest
 from menus.PlayerInfo import PlayerInfo
-# from menus.CreateQuest import CreateQuest
+from menus.CreateQuest import CreateQuest
 from utilities.World import World
 from utilities.Player import Player
 
@@ -42,7 +42,7 @@ world = World(player1, player2)
 # Example - PlayQuest(World)
 playQuest = PlayQuest(world)
 playerInfo = PlayerInfo(world)
-# Example - CreateQuest(World)
+createQuest = CreateQuest(world)
 
 print(f"\nWelcome, {p1} and {p2}!")
 
@@ -79,8 +79,7 @@ while True:
         playerInfo.run()
 
     elif choice == "4":
-        print("\n  [Settings coming soon]\n")
-        CreateQuest.run()
+        createQuest.run()
 
     elif choice == "5":
         print(f"\n  Farewell, {p1} and {p2}!\n")
