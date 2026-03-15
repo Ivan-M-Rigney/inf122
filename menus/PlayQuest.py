@@ -24,8 +24,13 @@ class PlayQuest:
             # Present quests and choose one
             print("Which quest would you like to play?")
             self.list_quests()
-            choice = int(input("Enter your choice: "))
-            self.set_quest(choice)
+
+            response = input("Enter your choice: ").strip()
+            if not response.isdigit() or not 1 <= int(response) <= len(self.world.quests):
+                print("  Invalid choice. Please enter a number from the list.")
+                continue
+
+            self.set_quest(int(response))
 
             # Play selected quest
             game.start_quest(self.quest)
