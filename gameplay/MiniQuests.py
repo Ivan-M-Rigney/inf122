@@ -1,3 +1,4 @@
+from __future__ import annotations
 from copy import deepcopy
 from utilities.ItemInventory import Item
 from gameplay.Entities import Entity, PlayerEntity

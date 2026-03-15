@@ -1,3 +1,4 @@
+from __future__ import annotations
 from menus.PlayQuest import PlayQuest
 from menus.PlayerInfo import PlayerInfo
 from menus.CreateQuest import CreateQuest
@@ -50,7 +51,9 @@ print(f"\nWelcome, {p1} and {p2}!")
 print("\n" + "=" * 40)
 print("  Instructions")
 print("=" * 40)
-print("\n  [Coming soon]\n")
+print("\n  - You can input the number of the main menu option to select it.\n")
+print("  - You are able to play a quest, create a quest, view player information, and quit the game.\n")
+print("  - Please have fun!\n")
 
 input("Press Enter to continue to the main menu:")
 
@@ -58,32 +61,28 @@ while True:
     print("\n" + "=" * 40)
     print("  Main Menu")
     print("=" * 40)
-    print("  [1] Escort Quest (TESTING FOR PLAYQUEST.PY)") # Play Quest
-    print("  [2] Collect Quest (TESTING FOR PLAYQUEST.PY)") # Play Quest
+    print("  [1] Play a quest") # Play Quest
+    print("  [2] Create a quest") # Play Quest
     print("  [3] Player Info") # Player Info
-    print("  [4] Settings") # Create Quest
-    print("  [5] Quit")
+    print("  [4] Quit")
 
-    choice = input("\nSelect an option (1/2/3/4/5): ").strip()
+    choice = input("\nSelect an option (1/2/3/4): ").strip()
 
     if choice == "1":
-        print("\nStarting Escort Quest...\n")
+        print("\nStarting Play Quest Menu...\n")
         playQuest.run()
 
     elif choice == "2":
-        print("\nStarting Collect Quest...\n")
-        playQuest.run()
+        print("\nStarting Create Quest Menu...\n")
+        createQuest.run()
 
     elif choice == "3":
-        print("\n  [Player Info...]\n")
+        print("\nStarting Player Info Menu...\n")
         playerInfo.run()
 
     elif choice == "4":
-        createQuest.run()
-
-    elif choice == "5":
         print(f"\n  Farewell, {p1} and {p2}!\n")
         break
 
     else:
-        print("  Invalid option. Please enter 1, 2, 3, 4, or 5.")
+        print("  Invalid option. Please enter 1, 2, 3, or 4.")

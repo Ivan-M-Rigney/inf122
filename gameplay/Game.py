@@ -1,3 +1,4 @@
+from __future__ import annotations
 from gameplay.MiniQuests import MiniQuest
 from utilities.WorldClock import WorldClock
 

@@ -1,3 +1,4 @@
+from __future__ import annotations
 from utilities.ItemInventory import Inventory, Item
 
 class Player:

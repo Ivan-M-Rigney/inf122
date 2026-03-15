@@ -1,3 +1,4 @@
+from __future__ import annotations
 # Menu/flow for playing a quest
 
 from gameplay.Game import Game

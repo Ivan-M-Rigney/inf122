@@ -1,3 +1,4 @@
+from __future__ import annotations
 # Menu/flow for creating a quest
  
 from utilities.World import World
@@ -133,6 +134,10 @@ class CreateQuest:
  
             if not realm.in_bounds(row, col):
                 print(f"  ({row},{col}) is out of bounds for a {realm.size}x{realm.size} realm.")
+                continue
+
+            if isinstance(realm.get_entity(row, col), PlayerEntity):
+                print("  You cannot place on top of another player.")
                 continue
  
             # Build entity

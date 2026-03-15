@@ -1,3 +1,4 @@
+from __future__ import annotations
 from utilities.Player import Player
 from gameplay.BaseQuests import base_escort_quest, base_collect_quest
 

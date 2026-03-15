@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 class Entity:
     def __init__(self, x: int, y: int):
         self.x = x
@@ -64,8 +66,7 @@ class Water(Entity):
         return True
     
     def touch(self, other: "Entity"):
-        if isinstance(other, PlayerEntity):
-            other.stuck = True
+        print("You stepped into the water and got wet!")
 
     def debug_print(self) -> str:
         return "W"

@@ -1,3 +1,4 @@
+from __future__ import annotations
 # Menu/flow for viewing player information
 from utilities.World import World
 

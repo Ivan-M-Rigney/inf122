@@ -1,3 +1,4 @@
+from __future__ import annotations
 # Code from Frederick's A3
 
 """
