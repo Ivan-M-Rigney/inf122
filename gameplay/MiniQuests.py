@@ -3,20 +3,20 @@ from copy import deepcopy
 from utilities.ItemInventory import Item
 from gameplay.Entities import Entity, PlayerEntity
 from utilities.WorldClock import WorldClock
-
+from utilities.Primitives import RealmSize, Coordinate, Name, Description, Qty, QuestName
 
 class Realm:
-    def __init__(self, size: int):
+    def __init__(self, size: RealmSize):
         self.size = size
-        self.grid: list[list[Entity | None]] = [[None for _ in range(size)] for _ in range(size)]
+        self.grid: list[list[Entity | None]] = [[None for _ in range(int(size))] for _ in range(int(size))]
         self.player1: PlayerEntity = None
         self.player2: PlayerEntity = None
 
-    def in_bounds(self, x: int, y: int) -> bool:
-        return 0 <= x < self.size and 0 <= y < self.size
+    def in_bounds(self, coord: Coordinate) -> bool:
+        return self.size.in_bounds(coord)
 
     def place_entity(self, entity: Entity):
-        if not self.in_bounds(entity.x, entity.y):
+        if not self.in_bounds(entity.coord):
             raise ValueError(f"{entity.debug_print()} cannot be placed at ({entity.x}, {entity.y}) because it is out of bounds")
 
         # if self.grid[entity.x][entity.y] is not None:
@@ -30,48 +30,43 @@ class Realm:
 
         self.grid[entity.x][entity.y] = entity
     
-    def remove_entity(self, x: int, y: int):
-        if not self.in_bounds(x, y):
-            raise ValueError(f"Target ({x}, {y}) is out of bounds")
+    def remove_entity(self, coord: Coordinate):
+        if not self.in_bounds(coord):
+            raise ValueError(f"Target ({coord.x}, {coord.y}) is out of bounds")
         
-        if self.grid[x][y] is None:
-            raise ValueError(f"Target ({x}, {y}) is not occupied")
+        if self.grid[coord.x][coord.y] is None:
+            raise ValueError(f"Target ({coord.x}, {coord.y}) is not occupied")
 
-        self.grid[x][y] = None
+        self.grid[coord.x][coord.y] = None
 
-    def get_entity(self, x: int, y: int) -> Entity | None:
-        if not self.in_bounds(x, y):
-            raise ValueError(f"Target ({x}, {y}) is out of bounds")
+    def get_entity(self, coord: Coordinate) -> Entity | None:
+        if not self.size.in_bounds(coord):
+            raise ValueError(f"Target ({coord.x}, {coord.y}) is out of bounds")
         
-        return self.grid[x][y]
+        return self.grid[coord.x][coord.y]
 
     def move_entity(self, entity: Entity, direction: tuple[int, int]):
         if direction == (0, 0):
             return
 
-        old_x = entity.x
-        old_y = entity.y
-        new_x = entity.x + direction[0]
-        new_y = entity.y + direction[1]
+        old_coord = entity.coord
+        new_coord = Coordinate(entity.coord.x + direction[0], entity.coord.y + direction[1])
 
-        if not self.in_bounds(new_x, new_y):
-            raise ValueError(f"Target ({new_x}, {new_y}) is out of bounds")
+        if not self.size.in_bounds(new_coord):
+            raise ValueError(f"Target ({new_coord}) is out of bounds")
 
-        if self.grid[new_x][new_y] is not None:
-            if not self.grid[new_x][new_y].can_touch(entity):
-                raise ValueError(f"{entity.debug_print()} cannot touch {self.grid[new_x][new_y].debug_print()}")
+        entity_at_new = self.grid[new_coord.x][new_coord.y]
+        if entity_at_new != None:
+            if not entity_at_new.can_touch(entity):
+                raise ValueError(f"{entity.debug_print()} cannot touch {entity_at_new.debug_print()}")
 
-        if self.grid[new_x][new_y] is None:
-            entity.move(direction)
-            self.remove_entity(old_x, old_y)
-            self.place_entity(entity)
-        else:
-            self.grid[new_x][new_y].touch(entity)
-            entity.move(direction)
-            self.remove_entity(old_x, old_y)
-            self.place_entity(entity)
+            entity_at_new.touch(entity)
 
-    def debug_print(self) -> str:
+        entity.move(direction)
+        self.remove_entity(old_coord)
+        self.place_entity(entity)
+
+    def debug_print(self):
         for row in self.grid:
             for entity in row:
                 if entity is None:
@@ -92,7 +87,7 @@ class MiniQuest:
         self.name = None
         self.reward = None
     
-    def set_name(self, name: str):
+    def set_name(self, name: QuestName):
         self.name = name
 
     def tick(self):
@@ -118,7 +113,10 @@ class MiniQuest:
 class EscortQuest(MiniQuest):
     def __init__(self, realm: Realm):
         super().__init__(realm)
-        self.reward = Item("Stack of Cash", "Reward for escorting the merchant", "Common")
+        self.reward = Item(
+            Name("Stack of Cash"),
+            Description("Reward for escorting the merchant"),
+            Name("Common"))
 
     def check_lose(self) -> bool:
         return self.player1.dead or self.player2.dead
@@ -127,13 +125,16 @@ class EscortQuest(MiniQuest):
         return self.player1.win or self.player2.win
 
 class CollectQuest(MiniQuest):
-    def __init__(self, realm: Realm, target_count: int):
+    def __init__(self, realm: Realm, target_count: Qty):
         super().__init__(realm)
         self.target_count = target_count
-        self.reward = Item("Crate of Apples", "Reward for collecting apples", "Common")
+        self.reward = Item(
+            Name("Crate of Apples"), 
+            Description("Reward for collecting apples"), 
+            Name("Common"))
 
     def check_lose(self) -> bool:
         return self.player1.dead or self.player2.dead
 
     def check_win(self) -> bool:
-        return self.player1.score + self.player2.score >= self.target_count
+        return self.player1.score + self.player2.score >= self.target_coun

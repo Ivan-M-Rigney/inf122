@@ -4,8 +4,11 @@ from menus.PlayerInfo import PlayerInfo
 from menus.CreateQuest import CreateQuest
 from utilities.World import World
 from utilities.Player import Player
+from utilities.Primitives import Username, Name
 
 profiles = {}
+
+s = Name("Yoo")
 
 print("=" * 50)
 print("Welcome to GuildQuest Adventure!")
@@ -14,27 +17,28 @@ print("=" * 50)
 # Player 1 username
 while True:
     p1 = input("\nEnter username for Player 1: ").strip()
-    if not p1:
-        print("Username cannot be empty.")
-        continue
-    profiles[p1] = {"username": p1, "quests_completed": [], "inventory": []}
-    break
+    try:
+        profiles[p1] = {"username": Username(p1), "quests_completed": [], "inventory": []}
+        break
+    except ValueError as e:
+        print(e)
 
 # Player 2 username
 while True:
     p2 = input("Enter username for Player 2: ").strip()
-    if not p2:
-        print("Username cannot be empty.")
-        continue
-    if p2 == p1:
-        print("That username is already taken by Player 1. Choose a different one.")
-        continue
-    profiles[p2] = {"username": p2, "quests_completed": [], "inventory": []}
-    break
+    try:
+        profile = {"username": Username(p2), "quests_completed": [], "inventory": []}
+        if p2 == p1:
+            print("That username is already taken by Player 1. Choose a different one.")
+            continue
+        profiles[p2] = profile
+        break
+    except ValueError as e:
+        print(e)
 
 # CREATE PLAYER OBJECTS TODO
-player1 = Player(p1)
-player2 = Player(p2) 
+player1 = Player(profiles[p1].username)
+player2 = Player(profiles[p2].username) 
 
 # CREATE WORLD OBJECT TODO
 world = World(player1, player2)

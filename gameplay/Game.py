@@ -1,6 +1,7 @@
 from __future__ import annotations
 from gameplay.MiniQuests import MiniQuest
 from utilities.WorldClock import WorldClock
+from utilities.Primitives import RealmSize, Coordinate
 
 # Gameplay/instance management loop/class
 class Game:
@@ -53,14 +54,14 @@ if __name__ == "__main__":
     from gameplay.MiniQuests import Realm, EscortQuest
     from gameplay.Entities import PlayerEntity, Target, Merchant, Lava
 
-    realm = Realm(10)
-    player1 = PlayerEntity(4, 4)
-    player2 = PlayerEntity(5, 5)
+    realm = Realm(RealmSize(10))
+    player1 = PlayerEntity(Coordinate(4, 4))
+    player2 = PlayerEntity(Coordinate(5, 5))
     realm.place_entity(player1)
     realm.place_entity(player2)
-    realm.place_entity(Target(0, 0))
-    realm.place_entity(Merchant(9, 9))
-    realm.place_entity(Lava(0, 9))
+    realm.place_entity(Target(Coordinate(0, 0)))
+    realm.place_entity(Merchant(Coordinate(9, 9)))
+    realm.place_entity(Lava(Coordinate(0, 9)))
 
 
 

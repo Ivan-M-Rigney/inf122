@@ -1,7 +1,8 @@
 from __future__ import annotations
+from utilities.Primitives import Name, Description
 
 class Item:
-    def __init__(self, name: str, description: str, rarity: str): # Rarity ENUM changed to string for simplicity
+    def __init__(self, name: Name, description: Description, rarity: Name): # Rarity ENUM changed to string for simplicity
         self.name = name
         self.description = description
         self.rarity = rarity
