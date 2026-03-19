@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 """
 Domain primitive types for the GuildQuest Mini-Adventure Environment (GMAE).
 
