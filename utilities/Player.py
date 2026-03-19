@@ -1,8 +1,9 @@
 from __future__ import annotations
 from utilities.ItemInventory import Inventory, Item
+from utilities.Primitives import Username
 
 class Player:
-    def __init__(self, username: str):
+    def __init__(self, username: Username):
         self.username = username
         self.quests_completed = []
         self.inventory = Inventory()

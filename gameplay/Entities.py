@@ -1,10 +1,18 @@
 from __future__ import annotations
+from utilities.Primitives import Coordinate, Qty
 
 class Entity:
-    def __init__(self, x: int, y: int):
-        self.x = x
-        self.y = y
+    def __init__(self, coord: Coordinate):
+        self.coord = coord
         self.hidden = False
+
+    @property
+    def x(self) -> int:
+        return self.coord.x
+
+    @property
+    def y(self) -> int:
+        return self.coord.y
     
     def can_touch(self, other: "Entity") -> bool:
         pass
@@ -13,13 +21,12 @@ class Entity:
         pass
 
     def move(self, direction: tuple[int, int]):
-        self.x += direction[0]
-        self.y += direction[1]
+        self.coord = Coordinate(self.coord.x + direction[0], self.coord.y + direction[1])
+     
+    def debug_print(self) -> str:
+        return " "
 
 class Tile(Entity):
-    def __init__(self, x: int, y: int):
-        super().__init__(x, y)
-
     def can_touch(self, other: "Entity") -> bool:
         return True
     
@@ -27,11 +34,11 @@ class Tile(Entity):
         return "."
 
 class PlayerEntity(Entity):
-    def __init__(self, x: int, y: int):
-        super().__init__(x, y)
+    def __init__(self, coord: Coordinate):
+        super().__init__(coord)
         self.dead = False
         self.stuck = False
-        self.score = 0
+        self.score = Qty(0)
         self.companion = None
         self.win = False
     
@@ -45,9 +52,6 @@ class PlayerEntity(Entity):
             return "E"
 
 class Lava(Entity):
-    def __init__(self, x: int, y: int):
-        super().__init__(x, y)
-
     def can_touch(self, other: "Entity") -> bool:
         return True
     
@@ -59,9 +63,6 @@ class Lava(Entity):
         return "L"
 
 class Water(Entity):
-    def __init__(self, x: int, y: int):
-        super().__init__(x, y)
-
     def can_touch(self, other: "Entity") -> bool:
         return True
     
@@ -72,9 +73,6 @@ class Water(Entity):
         return "W"
 
 class Apple(Entity):
-    def __init__(self, x: int, y: int):
-        super().__init__(x, y)
-
     def can_touch(self, other: "Entity") -> bool:
         return True
     
@@ -87,9 +85,6 @@ class Apple(Entity):
         return "A"
 
 class Merchant(Entity):
-    def __init__(self, x: int, y: int):
-        super().__init__(x, y)
-
     def can_touch(self, other: "Entity") -> bool:
         return True
     
@@ -102,9 +97,6 @@ class Merchant(Entity):
         return "M"
 
 class Target(Entity):
-    def __init__(self, x: int, y: int):
-        super().__init__(x, y)
-
     def can_touch(self, other: "Entity") -> bool:
         return True
     

@@ -2,6 +2,7 @@ from __future__ import annotations
 # Menu/flow for creating a quest
  
 from utilities.World import World
+from utilities.Primitives import RealmSize, QuestName, Qty, Coordinate
 from gameplay.MiniQuests import Realm, EscortQuest, CollectQuest
 from gameplay.Entities import PlayerEntity, Target, Merchant, Lava, Water, Apple
  
@@ -31,15 +32,16 @@ class CreateQuest:
     #  Internal helpers                                                    #
     # ------------------------------------------------------------------ #
  
-    def _get_realm_size(self) -> int:
+    def _get_realm_size(self) -> RealmSize:
         """Ask user for a valid realm size (4–20)."""
         while True:
             raw = input("  Enter realm size (4-20): ").strip()
             if raw.isdigit():
                 size = int(raw)
-                if 4 <= size <= 20:
-                    return size
-            print("  Please enter a number between 4 and 20.")
+                try:
+                    return RealmSize(size)
+                except ValueError:
+                    print("  Please enter a number between 4 and 20.")
  
     def _get_quest_type(self) -> str:
         """Ask user to pick Escort or Collection."""
@@ -55,33 +57,34 @@ class CreateQuest:
             else:
                 print("  Please enter 1 or 2.")
  
-    def _get_quest_name(self) -> str:
+    def _get_quest_name(self) -> QuestName:
         """Ask user for a non-empty quest name."""
         while True:
             name = input("  Quest name: ").strip()
-            if name:
-                return name
-            print("  Name cannot be empty.")
+            try:
+                return QuestName(name)
+            except:
+                print("  Name cannot be empty.")
  
-    def _get_collect_target(self, apple_count: int) -> int:
+    def _get_collect_target(self, apple_count: Qty) -> Qty:
         """Ask how many apples are needed to win (must be <= apples placed)."""
         while True:
             raw = input(f"  Apples to win (1-{apple_count}): ").strip()
             if raw.isdigit():
                 n = int(raw)
                 if 1 <= n <= apple_count:
-                    return n
+                    return Qty(n)
             print(f"  Please enter a number between 1 and {apple_count}.")
  
     def _print_grid(self, realm: Realm):
         """Print the current state of the realm grid."""
         print()
         # Column index header
-        print("    " + " ".join(str(c % 10) for c in range(realm.size)))
-        for r in range(realm.size):
+        print("    " + " ".join(str(c % 10) for c in range(int(realm.size))))
+        for r in range(int(realm.size)):
             row_str = f"  {r % 10} "
-            for c in range(realm.size):
-                entity = realm.get_entity(r, c)
+            for c in range(int(realm.size)):
+                entity = realm.get_entity(Coordinate(r, c))
                 if entity is None:
                     row_str += ". "
                 else:
@@ -127,22 +130,22 @@ class CreateQuest:
             coords = input(f"  Place {label} at row,col (e.g. 3,5): ").strip()
             try:
                 r_str, c_str = coords.split(",")
-                row, col = int(r_str.strip()), int(c_str.strip())
+                coord = Coordinate(int(r_str.strip()), int(c_str.strip()))
             except ValueError:
                 print("  Invalid coordinates. Use format: row,col")
                 continue
  
-            if not realm.in_bounds(row, col):
-                print(f"  ({row},{col}) is out of bounds for a {realm.size}x{realm.size} realm.")
+            if not realm.in_bounds(coord):
+                print(f"  {coord} is out of bounds for a {realm.size}x{realm.size} realm.")
                 continue
 
-            if isinstance(realm.get_entity(row, col), PlayerEntity):
+            if isinstance(realm.get_entity(coord), PlayerEntity):
                 print("  You cannot place on top of another player.")
                 continue
  
             # Build entity
             try:
-                entity = self._build_entity(quest_type, entity_choice, row, col)
+                entity = self._build_entity(quest_type, entity_choice, coord)
             except ValueError as e:
                 print(f"  {e}")
                 continue
@@ -155,11 +158,11 @@ class CreateQuest:
                 player_count += 1
  
             realm.place_entity(entity)
-            print(f"  Placed {label} at ({row},{col}).")
+            print(f"  Placed {label} at {coord}.")
  
         return realm
  
-    def _build_entity(self, quest_type: str, choice: str, row: int, col: int):
+    def _build_entity(self, quest_type: str, choice: str, coord: Coordinate):
         """Construct and return the correct Entity subclass."""
         if quest_type == "escort":
             mapping = {
@@ -179,7 +182,7 @@ class CreateQuest:
         cls = mapping.get(choice)
         if cls is None:
             raise ValueError(f"Unknown entity choice: {choice}")
-        return cls(row, col)
+        return cls(coord)
  
     def _count_entities(self, realm: Realm, entity_class) -> int:
         """Count how many entities of a given class are on the realm."""
