@@ -21,7 +21,7 @@ class Entity:
         pass
 
     def move(self, direction: tuple[int, int]):
-        self.coord += Coordinate(direction[0], direction[1])
+        self.coord = Coordinate(self.coord.x + direction[0], self.coord.y + direction[1])
      
     def debug_print(self) -> str:
         return " "

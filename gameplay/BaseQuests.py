@@ -17,11 +17,20 @@ escort_realm.place_entity(Target(Coordinate(9, 9)))
 escort_realm.place_entity(Merchant(Coordinate(2, 0)))
 escort_realm.place_entity(Merchant(Coordinate(7, 0)))
 
-for i in range(6):
-    escort_realm.place_entity(Lava(Coordinate(3, i)))
-for i in range(5):
-    escort_realm.place_entity(Lava(Coordinate(6, i)))
+escort_realm.place_entity(Lava(Coordinate(3, 0)))
+escort_realm.place_entity(Lava(Coordinate(3, 1)))
+escort_realm.place_entity(Lava(Coordinate(3, 2)))
+escort_realm.place_entity(Lava(Coordinate(3, 3)))
+escort_realm.place_entity(Lava(Coordinate(3, 4)))
+escort_realm.place_entity(Lava(Coordinate(3, 5)))
+escort_realm.place_entity(Water(Coordinate(3, 6)))
 
+escort_realm.place_entity(Lava(Coordinate(6, 0)))
+escort_realm.place_entity(Lava(Coordinate(6, 1)))
+escort_realm.place_entity(Lava(Coordinate(6, 2)))
+escort_realm.place_entity(Lava(Coordinate(6, 3)))
+escort_realm.place_entity(Lava(Coordinate(6, 4)))
+escort_realm.place_entity(Lava(Coordinate(6, 5)))
 escort_realm.place_entity(Water(Coordinate(6, 6)))
 
 escort_realm.place_entity(Lava(Coordinate(1, 6)))

@@ -158,7 +158,7 @@ class CreateQuest:
                 player_count += 1
  
             realm.place_entity(entity)
-            print(f"  Placed {label} at ({row},{col}).")
+            print(f"  Placed {label} at {coord}.")
  
         return realm
  
@@ -182,7 +182,7 @@ class CreateQuest:
         cls = mapping.get(choice)
         if cls is None:
             raise ValueError(f"Unknown entity choice: {choice}")
-        return cls(row, col)
+        return cls(coord)
  
     def _count_entities(self, realm: Realm, entity_class) -> int:
         """Count how many entities of a given class are on the realm."""

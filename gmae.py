@@ -4,11 +4,9 @@ from menus.PlayerInfo import PlayerInfo
 from menus.CreateQuest import CreateQuest
 from utilities.World import World
 from utilities.Player import Player
-from utilities.Primitives import Username, Name
+from utilities.Primitives import Username
 
 profiles = {}
-
-s = Name("Yoo")
 
 print("=" * 50)
 print("Welcome to GuildQuest Adventure!")
@@ -37,8 +35,8 @@ while True:
         print(e)
 
 # CREATE PLAYER OBJECTS TODO
-player1 = Player(profiles[p1].username)
-player2 = Player(profiles[p2].username) 
+player1 = Player(profiles[p1]["username"])
+player2 = Player(profiles[p2]["username"]) 
 
 # CREATE WORLD OBJECT TODO
 world = World(player1, player2)

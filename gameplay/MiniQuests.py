@@ -50,7 +50,13 @@ class Realm:
             return
 
         old_coord = entity.coord
-        new_coord = Coordinate(entity.coord.x + direction[0], entity.coord.y + direction[1])
+        new_x = entity.coord.x + direction[0]
+        new_y = entity.coord.y + direction[1]
+
+        if new_x < 0 or new_y < 0:
+            raise ValueError(f"Target ({new_x}, {new_y}) is out of bounds")
+
+        new_coord = Coordinate(new_x, new_y)
 
         if not self.size.in_bounds(new_coord):
             raise ValueError(f"Target ({new_coord}) is out of bounds")
@@ -137,4 +143,4 @@ class CollectQuest(MiniQuest):
         return self.player1.dead or self.player2.dead
 
     def check_win(self) -> bool:
-        return self.player1.score + self.player2.score >= self.target_coun
+        return self.player1.score + self.player2.score >= self.target_count

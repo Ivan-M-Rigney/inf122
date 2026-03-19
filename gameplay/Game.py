@@ -36,8 +36,8 @@ class Game:
             try:
                 self.print_realm()
                 print(f"Time is currently {self.time.get_days()}:{self.time.get_hours()}:{self.time.get_minutes()}")
-                p1_direction = input("Player 1 direction (w/a/s/d): ")
-                p2_direction = input("Player 2 direction (w/a/s/d): ")
+                p1_direction = input("Player 1 direction (w/a/s/d): ").strip()
+                p2_direction = input("Player 2 direction (w/a/s/d): ").strip()
                 p1_direction = self.input_to_direction(p1_direction)
                 p2_direction = self.input_to_direction(p2_direction)
                 self.mini_quest.process_turn(p1_direction, p2_direction)    
