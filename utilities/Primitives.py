@@ -13,7 +13,6 @@ Classes
     Qty        – non-negative integer quantity (scores, counts, capacities).
     RealmSize  – integer realm dimension constrained to the range [4, 20].
 """
-from __future__ import annotations
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Internal shared helpers
